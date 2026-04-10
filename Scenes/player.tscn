@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://d23gl7th45xd3"]
+
+[ext_resource type="Script" uid="uid://b2hotpwyt3nvc" path="res://Scripts/player.gd" id="1_v0iea"]
+[ext_resource type="Shader" uid="uid://djdtg3cpluvhh" path="res://Shaders/pl1.gdshader" id="2_6t5aa"]
+[ext_resource type="Texture2D" uid="uid://4yfomge3m3be" path="res://Assets/Textures/sprites/Sprite-0001.png" id="2_cvnsp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vgqql"]
+shader = ExtResource("2_6t5aa")
+shader_parameter/influence = 0.80000001192096
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
+size = Vector2(8, 13)
+
+[sub_resource type="Curve" id="Curve_6t5aa"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.23595512), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_vgqql"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 2.2471924), 0.0, 0.0, 0, 0, Vector2(1, -11.235931), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_fkybt"]
+offsets = PackedFloat32Array(0, 0.4, 0.5, 0.9)
+colors = PackedColorArray(1, 0.12156863, 0.105882354, 1, 1, 0.49803922, 0, 1, 1, 0.58431375, 0, 1, 1, 0.8960784, 0.5705882, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6t5aa"]
+radius = 6.0
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=13937758 groups=["player"]]
+script = ExtResource("1_v0iea")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1774986902]
+light_mask = 3
+visibility_layer = 3
+z_index = 1
+material = SubResource("ShaderMaterial_vgqql")
+use_parent_material = true
+position = Vector2(0, -7)
+texture = ExtResource("2_cvnsp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1872193431]
+visible = false
+position = Vector2(0, -6.5)
+shape = SubResource("RectangleShape2D_cvnsp")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1011826174]
+emitting = false
+amount = 64
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 80.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_6t5aa")
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="." unique_id=515321337]
+position = Vector2(-2, 0)
+emitting = false
+amount = 1024
+lifetime = 0.15000000000000002
+emission_shape = 1
+emission_sphere_radius = 2.0
+gravity = Vector2(0, 400)
+radial_accel_min = -50.0
+radial_accel_max = 100.0
+radial_accel_curve = SubResource("Curve_vgqql")
+damping_max = 100.0
+scale_amount_min = 0.3
+scale_amount_max = 0.5
+color_ramp = SubResource("Gradient_fkybt")
+
+[node name="Timer" type="Timer" parent="." unique_id=1170837029]
+wait_time = 0.12
+one_shot = true
+
+[node name="BuffTimer" type="Timer" parent="." unique_id=968484182]
+wait_time = 7.5
+one_shot = true
+
+[node name="BuffTimer2" type="Timer" parent="." unique_id=947016428]
+wait_time = 7.5
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="." unique_id=595694121 groups=["player"]]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=432248107]
+visible = false
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_6t5aa")
+
+[connection signal="timeout" from="BuffTimer" to="." method="on_buff_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

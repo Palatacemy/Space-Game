@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dov28g2jtc5sb"]
+
+[ext_resource type="Script" uid="uid://c22bmbckbvqp7" path="res://Scripts/gem.gd" id="1_bti4x"]
+[ext_resource type="Texture2D" uid="uid://dvcuaqnv0lmnu" path="res://Assets/Textures/sprites/Sprite-0002.png" id="2_0xstn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i7jy3"]
+radius = 5.0
+
+[node name="Gem" type="Area2D" unique_id=1478947177 groups=["gem"]]
+script = ExtResource("1_bti4x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=967703747]
+visible = false
+shape = SubResource("CircleShape2D_i7jy3")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=301894804]
+texture = ExtResource("2_0xstn")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
