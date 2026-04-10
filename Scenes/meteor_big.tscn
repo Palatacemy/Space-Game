@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://b0saev3mmrqlx"]
+
+[ext_resource type="Script" uid="uid://csae41opklc2l" path="res://Scripts/meteor_big.gd" id="1_003sx"]
+[ext_resource type="Texture2D" uid="uid://dct2hdvag8gg" path="res://Assets/Textures/sprites/Sprite-0004.png" id="2_43ns1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bq4jk"]
+radius = 7.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n84i5"]
+atlas = ExtResource("2_43ns1")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tvjy"]
+atlas = ExtResource("2_43ns1")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kgwca"]
+atlas = ExtResource("2_43ns1")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3jht7"]
+atlas = ExtResource("2_43ns1")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d1djm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n84i5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5tvjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kgwca")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3jht7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[node name="Meteor_Big" type="CharacterBody2D" unique_id=2135439463 groups=["meteors"]]
+script = ExtResource("1_003sx")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=574221949 groups=["meteors"]]
+visible = false
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=177654233]
+shape = SubResource("CircleShape2D_bq4jk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=198404006]
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_d1djm")
+autoplay = "default"
+frame_progress = 0.8871827
+
+[node name="Timer" type="Timer" parent="." unique_id=1827908295]
+wait_time = 15.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

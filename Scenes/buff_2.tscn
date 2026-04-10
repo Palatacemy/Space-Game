@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://ch7px21e2yvlq"]
+
+[ext_resource type="Script" uid="uid://drr5es3olry4c" path="res://Scripts/buff_2.gd" id="1_o8lbp"]
+[ext_resource type="Texture2D" uid="uid://dh01cv1gvum34" path="res://Assets/Textures/sprites/Sprite-0005.png" id="2_1eunv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v113j"]
+radius = 6.0827627
+
+[node name="Buff2" type="Area2D" unique_id=683450650 groups=["buff2"]]
+script = ExtResource("1_o8lbp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=657926297]
+visible = false
+shape = SubResource("CircleShape2D_v113j")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2025915061]
+modulate = Color(15.479875, 2.1450253, 0, 1)
+texture = ExtResource("2_1eunv")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
