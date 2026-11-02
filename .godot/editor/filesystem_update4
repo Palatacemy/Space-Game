@@ -1,0 +1,11 @@
+res://Scenes/game.tscn
+res://Assets/Textures/tilesets/tile_set_1.tres
+res://Scripts/player.gd
+res://Scripts/level_1.gd
+res://Scripts/level_2.gd
+res://Scripts/level_3.gd
+res://Scripts/game.gd
+res://Scripts/portal.gd
+res://Scripts/meteor.gd
+res://Scenes/meteor.tscn
+res://Scenes/meteor_big.tscn

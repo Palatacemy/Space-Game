@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://buqbi176oyoxa"]
+
+[ext_resource type="Script" uid="uid://ddwxptxcx5i2d" path="res://Scripts/portal.gd" id="1_oi2tk"]
+[ext_resource type="Texture2D" uid="uid://dwwa2iu6t2s8f" path="res://Assets/Textures/sprites/Sprite-0006.2.png" id="2_oi2tk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oi2tk"]
+radius = 6.0827627
+
+[node name="Portal" type="Area2D" unique_id=1332248446 groups=["portal"]]
+script = ExtResource("1_oi2tk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=691344062]
+shape = SubResource("CircleShape2D_oi2tk")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=705644120]
+texture = ExtResource("2_oi2tk")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=74855174]
+emitting = false
+amount = 240
+emission_shape = 6
+emission_ring_inner_radius = 6.0
+emission_ring_radius = 12.0
+particle_flag_align_y = true
+gravity = Vector2(0, 0)
+radial_accel_min = 100.0
+radial_accel_max = 100.0
+color = Color(1, 0.84313726, 0, 1)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

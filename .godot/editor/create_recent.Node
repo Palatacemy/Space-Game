@@ -1,0 +1,14 @@
+CollisionShape2D
+CPUParticles2D
+Area2D
+Sprite2D
+TileMapLayer
+Node2D
+CanvasLayer
+Timer
+Node
+TouchScreenButton
+CharacterBody2D
+AudioStreamPlayer2D
+AnimatedSprite2D
+Button
