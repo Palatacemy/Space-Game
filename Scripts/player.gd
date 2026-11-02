@@ -9,6 +9,13 @@ extends CharacterBody2D
 @onready var buff_timer_2: Timer = $BuffTimer2
 @onready var end_particles: CPUParticles2D = $CPUParticles2D
 @onready var jetpack_particles: CPUParticles2D = $CPUParticles2D2
+@onready var pushbox_1_h: Area2D = $"../Level2/Pushbox1"
+@onready var pushbox_2_v: Area2D = $"../Level2/Pushbox2"
+
+
+@onready var vertical_velocity_debug: Label = $Camera2D/VerticalVelocityDebug
+@onready var pushbox1_horisontal_debug: Label = $Camera2D/PushboxHorisontalDebug
+@onready var pushbox2_vertical_debug: Label = $Camera2D/PushboxVerticalDebug
 
 @onready var mat1 = preload("res://Shaders/pl1.gdshader")
 
@@ -17,12 +24,19 @@ const SPEED = 120.0
 const JUMP_VELOCITY = -220.0
 const JETPACK_STRENGTH = -40
 const MAX_JETPACK_CLIMB = -160
+const MAX_FALL_VELOCITY = 360
+const H_PUSHBOX_H_STRENGTH = -28
+const H_PUSHBOX_V_STRENGTH = -8
+const V_PUSHBOX_STRENGTH = -20
 
 var jump_available : bool = true
 var jump_buffer : bool = false
 var coyote_time_activated : bool = false
 var acc_rate = 0.0
 var jump_pressed : bool = false
+
+var inside_h_pushbox : bool = false
+var inside_v_pushbox : bool = false
 
 func _physics_process(delta: float) -> void:
 	
@@ -31,6 +45,8 @@ func _physics_process(delta: float) -> void:
 			coyote_timer.start()
 			coyote_time_activated = true
 		velocity += get_gravity() * delta
+		if velocity.y > MAX_FALL_VELOCITY:
+			velocity.y = MAX_FALL_VELOCITY
 	else:
 		if coyote_time_activated:
 			coyote_time_activated = false
@@ -71,7 +87,18 @@ func _physics_process(delta: float) -> void:
 		else:
 			acc_rate = SPEED * 0.3
 		velocity.x = move_toward(velocity.x, 0, acc_rate)
-
+	
+	if inside_h_pushbox:
+		velocity.x += H_PUSHBOX_H_STRENGTH
+		velocity.y += H_PUSHBOX_V_STRENGTH
+		
+	if inside_v_pushbox:
+		velocity.y += V_PUSHBOX_STRENGTH
+		
+	#vertical_velocity_debug.text = "Vy: " + str(floor(velocity.y))
+	#pushbox1_horisontal_debug.text = str(inside_h_pushbox)
+	#pushbox2_vertical_debug.text = str(inside_v_pushbox)
+	
 	move_and_slide()
 
 	if direction == 1.0:
@@ -102,6 +129,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		sfx2.play()
 	if area.is_in_group("meteors") and buff_timer.is_stopped():
 		game_over()
+	if area.is_in_group("portal"):
+		get_parent().next_level()
 
 func _on_killbox_area_entered(_area: Area2D) -> void:
 	if _area.is_in_group("player"):
@@ -114,7 +143,28 @@ func _on_killbox_area_entered(_area: Area2D) -> void:
 func on_buff_timer_timeout() -> void:
 	sprite.use_parent_material = true
 
+func reset_buffs() -> void:
+	buff_timer.stop()
+	sprite.use_parent_material = true
+	buff_timer_2.stop()
+
 func game_over() -> void:
 	end_particles.emitting = true
 	set_physics_process(false)
 	get_parent().on_game_over()
+
+func _on_pushbox_1_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player"):
+		inside_h_pushbox = true
+
+func _on_pushbox_1_area_exited(area: Area2D) -> void:
+	if area.is_in_group("player"):
+		inside_h_pushbox = false
+
+func _on_pushbox_2_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player"):
+		inside_v_pushbox = true
+
+func _on_pushbox_2_area_exited(area: Area2D) -> void:
+	if area.is_in_group("player"):
+		inside_v_pushbox = false

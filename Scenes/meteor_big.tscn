@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dct2hdvag8gg" path="res://Assets/Textures/sprites/Sprite-0004.png" id="2_43ns1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bq4jk"]
-radius = 7.0
+radius = 6.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n84i5"]
 atlas = ExtResource("2_43ns1")
@@ -60,7 +60,7 @@ autoplay = "default"
 frame_progress = 0.8871827
 
 [node name="Timer" type="Timer" parent="." unique_id=1827908295]
-wait_time = 15.0
+wait_time = 18.0
 one_shot = true
 autostart = true
 
